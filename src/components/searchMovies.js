@@ -6,7 +6,6 @@ export default function SearchMovies() {
     const [movies, setMovies] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [present, setPresent] = useState("");
 
     const handleSubmit = async (e) => {
         setLoading(true);
@@ -24,28 +23,30 @@ export default function SearchMovies() {
         }
     };
     return (
-        <div>
-            <form onSubmit={(e)=>{ if(query!==""){ setPresent("");handleSubmit(e)} else { e.preventDefault();setPresent("data")}}} className="form">
-                <label htmlFor="query" className="label">
-                    Movie name
+        <div className="container">
+            <div>
+            <form onSubmit={(e)=>{ if(query!==""){ setError("");handleSubmit(e)} else { e.preventDefault(); setError("You missed the movie name") ;}}} className="form-inline" >
+                <label htmlFor="query" className="col-md-2 offset-md-1 p-0 mr-sm-3 mb-2 ">
+                    Movie Name:
                 </label>
                 <input
                     type="text"
                     name="query"
                     value={query}
-                    className="input"
+                    className="form-control col-md-5  mr-sm-3 mb-2"
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="i.e. Drishyam"
                 />
-                <button className="button" type="submit">
+                <button className="btn btn-dark  col-md-2 col-3 mb-2" type="submit">
                     Search!
                 </button>
             </form>
-                {present && <p className="flash info">Provide Data...</p>}
-            {loading && <p className="flash info">Loading...</p>}
-            {error && <p className="flash error">{error}</p>}
+            {error && <p className="alert alert-info col-md-3 offset-md-7">{error}</p>}
+        
+            {loading && <p className="alert alert-info ">Loading...</p>}
+            <br/>
             {!loading && !error && (
-                <div className="card-list">
+                <div className="card-cust text-center">
                     {movies &&
                         movies
                             .filter((movie) => movie.poster_path)
@@ -54,6 +55,8 @@ export default function SearchMovies() {
                             ))}
                 </div>
             )}
+            </div>
+            
         </div>
     );
 }
